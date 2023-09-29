@@ -5,8 +5,9 @@ require 'voxpupuli/acceptance/spec_helper_acceptance'
 configure_beaker do |host|
   install_package(host, 'epel-release') if fact_on(host, 'os.name') == 'CentOS'
   if fact_on(host, 'os.name') == 'OracleLinux'
-    install_package(host, 'oracle-epel-release-el7')
-    on host, 'yum-config-manager --enable ol7_optional_latest'
+    ver = fact_on(host, 'os.release.major')
+    install_package(host, "oracle-epel-release-el#{ver}")
+    on host, "yum-config-manager --enable ol#{ver}_optional_latest"
   end
 end
 
